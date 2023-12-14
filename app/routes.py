@@ -130,12 +130,6 @@ def stop_workspace():
         return {"error": "Missing arguments."}
     return redirect(url_for('login'))
 
-@app.route('/workspace/stop/')
-def stop_workspace():
-    if current_user.is_authenticated:
-        pass
-    return redirect(url_for('login'))
-
 @app.route('/create_esp/')
 def create_esp():
     esp_name = request.args.get('name')
