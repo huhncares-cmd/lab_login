@@ -19,6 +19,11 @@ source venv/bin/activate
 ```
 pip install -r requirements.txt
 ```
+5. Environment Variablen setzen: Erstellen Sie eine ```.env```-Datei mit dem Inhalt:
+```
+SECRET_KEY=<dein_secret_key>
+```
+Den Secret-Key kannst du z.B. mit der Funktion uuid aus dem Modul uuid erzeugen.
 ## Starten
 Um das Projekt zu starten, führen Sie den folgenden Befehl aus:
 ```
