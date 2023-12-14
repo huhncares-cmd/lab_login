@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LabLogin | Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav>
+        <div class="nav-logo">
+            <a href="/" id="title">Lab<span class="secondary-color">Login</span></a>
+        </div>
+        <div class="nav-content">
+            <ul>
+                <li>
+                    <a class="button danger" href="/logout/">Abmelden</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <main>
+        <h1>Hey, {% block name %}{% endblock %}!</h1>
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer>
+        <p>YoungEngineers &copy; 2023-<script>document.write(new Date().getFullYear())</script></p>
+    </footer>
+</body>
+</html>

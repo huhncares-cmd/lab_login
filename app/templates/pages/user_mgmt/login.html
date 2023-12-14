@@ -1,0 +1,12 @@
+{% extends 'layouts/user_mgmt.html' %}
+{% block title %}Login{% endblock %}
+{% block heading %}Login{% endblock %}
+{% block content %}
+<input class="input" name="name" type="text" placeholder="Nutzername"/>
+<input class="input" name="password" type="password" placeholder="Passwort"/>
+<input class="button success" type="submit" value="Einloggen"/>
+<p>
+    Noch keinen Account? <a class="link" href="{{ url_for('register') }}">Registriere dich hier</a>.
+</p>
+{% endblock %}
+{% block error %}{{ error }}{% endblock %}

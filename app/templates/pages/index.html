@@ -1,0 +1,47 @@
+{% extends 'layouts/base.html' %}
+{% block name %}{{ user.name }}{% endblock %}
+{% block content %}
+<div class="section">
+    <h2>Arbeitsplatz</h2>
+    <select id="esps" class="select" name="esps">
+        {% for esp in esps %}
+        <option value="{{ esp.id }}">{{ esp.name }} ({{ esp.ip_adress }})</option>
+        {% endfor %}
+    </select>
+    <h3>Deine Konfiguration</h3>
+    {% for program in program_configs %}
+    {% if program.state == 1 or program.state == true or program.state == 'true' %}
+    <div class="states hidden">{{program.program_name}}</div>
+    {% endif %}
+    {% endfor %}
+    <p>
+        <label>
+            <input class="conf-checkbox" type="checkbox" name="chrome">
+            Chrome
+        </label><br>
+        <label>
+            <input class="conf-checkbox" type="checkbox" name="firefox">
+            Firefox
+        </label><br>
+        <label>
+            <input class="conf-checkbox" type="checkbox" name="tronxyslicer">
+            Tronxy Slicer
+        </label><br>
+        <label>
+            <input class="conf-checkbox" type="checkbox" name="pronterface">
+            Pronterface
+        </label><br>
+        <label>
+            <input class="conf-checkbox" type="checkbox" name="thonny">
+            Thonny
+        </label><br>
+        <label>
+            <input class="conf-checkbox" type="checkbox" name="vscode">
+            Visual Studio Code
+        </label>
+    </p>
+    <button id="start" class="button success">Arbeitsplatz starten</button><br><br>
+    <button id="stop" class="button danger">Arbeitsplatz beenden</button><br><br>
+    <script src="{{ url_for('static', filename='js/sync.js') }}"></script>
+</div>
+{% endblock %}

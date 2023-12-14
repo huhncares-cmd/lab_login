@@ -1,0 +1,5 @@
+**instance
+**.vscode
+**__pycache__
+.env
+**app/__pycache__

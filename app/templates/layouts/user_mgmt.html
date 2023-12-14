@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LabLogin | {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <main class="centered-content-wrapper">
+        <div class="centered-content-box">
+            <h1 id="box-heading">{% block heading %}{% endblock %}</h1>
+            <form class="submit-form" method="POST">
+                {% block content %}{% endblock %}
+            </form>
+            <p class="danger">
+                {% block error %}{% endblock %}
+            </p>
+        </div>
+        <p id="centered-content-footer">
+            Young Engineers &copy; 2023 - <script>document.write(new Date().getFullYear())</script>
+        </p>
+    </main>
+</body>
+</html>

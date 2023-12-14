@@ -1,0 +1,13 @@
+{% extends 'layouts/user_mgmt.html' %}
+{% block title %}Registrieren{% endblock %}
+{% block heading %}Registrieren{% endblock %}
+{% block content %}
+<input class="input" name="name" type="text" placeholder="Nutzername"/>
+<input class="input" name="password" type="password" placeholder="Passwort"/>
+<input class="input" name="password_confirm" type="password" placeholder="Passwort wiederholen"/>
+<input class="button success" type="submit" value="Registrieren"/>
+<p>
+    Schon einen Account? <a class="link" href="{{ url_for('login') }}">Logge dich hier ein</a>.
+</p>
+{% endblock %}
+{% block error %}{{ error }}{% endblock %}
