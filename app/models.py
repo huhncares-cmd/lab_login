@@ -21,8 +21,8 @@ class ESP(db.Model):
 class ProgramConfig(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    program_name = db.Column(db.String(100), nullable=False)
-    state = db.Column(db.Boolean, nullable=False)
+    esp_name = db.Column(db.String(100), nullable=False)
+    configured_programs = db.Column(db.String(100), nullable=False)
 
     def __repr__(self):
-        return f'<Esp {self.name}>'
+        return f'<ProgramConfig {self.configured_programs}>'

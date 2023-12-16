@@ -66,8 +66,6 @@ def logout():
 @app.route('/program_config/update/')
 def update_program_config():
     if current_user.is_authenticated:
-        program_config_name = request.args.get('name')
-        program_config_state = request.args.get('state')
         programs = [
             "chrome",
             "firefox",
@@ -76,38 +74,47 @@ def update_program_config():
             "thonny",
             "vscode"
         ]
-        if program_config_name == None or program_config_state == None:
-            return {"error": "Missing arguments."}
-        if program_config_name not in programs:
-            return {"error": "Invalid program name."}
-        if program_config_state not in ["true", "false"]:
-            return {"error": "Invalid state."}
-        try:
-            program_config = ProgramConfig.query.filter_by(name=current_user.name, program_name=program_config_name).first()
-            program_config.state = program_config_state == "true"
-            db.session.commit()
-
-            return {"success": "Program config updated."}
-        except Exception:
-            program_config = ProgramConfig(name=current_user.name, program_name=program_config_name, state=program_config_state == "true")
+        # get all get names
+        program_config_name = request.args.getlist('name')
+        esp = request.args.get('esp')
+        esp = ESP.query.filter_by(name=esp).first()
+        if esp == None:
+            return {"error": "ESP does not exist."}
+        
+        for name in program_config_name:
+            if name not in programs:
+                if name == "":
+                    continue
+                return {"error": "Invalid program name."}
+            
+        program_config = ProgramConfig.query.filter_by(name=current_user.name, esp_name=esp.name).first()
+        
+        if program_config == None:
+            program_config = ProgramConfig(name=current_user.name, esp_name=esp.name, configured_programs=','.join(program_config_name))
             db.session.add(program_config)
             db.session.commit()
-
             return {"success": "Program config created."}
+        program_config.configured_programs = ','.join(program_config_name)
+        db.session.commit()
+        return {"success": "Program config updated."}
     return redirect(url_for('login'))
 
 @app.route('/workspace/start/')
 def start_workspace():
     if current_user.is_authenticated:
-        programs = ProgramConfig.query.filter_by(name=current_user.name, state=True).all()
         esp=request.args.get('esp')
         if esp != None and ESP.query.filter_by(name=esp).first() != None:
             esp = ESP.query.filter_by(name=esp).first()
+            programs = ProgramConfig.query.filter_by(name=current_user.name, esp_name=esp.name).first()
+            programs = programs.configured_programs.split(',')
             content = jsonify(programs)
             try:
                 requests.post(f"http://{esp.ip_address}", timeout=5, json=content)
             except Exception as e:
                 db.session.delete(esp)
+                program_config = ProgramConfig.query.filter_by(esp_name=esp.name).all()
+                for config in program_config:
+                    db.session.delete(config)
                 db.session.commit()
                 return {"error": "ESP not reachable."}
             return {"success": "Workspace started."}
@@ -124,6 +131,9 @@ def stop_workspace():
                 requests.post(f"http://{esp.ip_address}/stop", timeout=5)
             except Exception as e:
                 db.session.delete(esp)
+                program_config = ProgramConfig.query.filter_by(esp_name=esp.name).all()
+                for config in program_config:
+                    db.session.delete(config)
                 db.session.commit()
                 return {"error": "ESP not reachable."}
             return {"success": "Workspace stopped."}
@@ -146,3 +156,18 @@ def create_esp():
     db.session.add(esp)
     db.session.commit()
     return {"success": "ESP created."}
+
+@app.route('/delete_esp/')
+def delete_esp():
+    esp_name = request.args.get('name')
+    if esp_name == None:
+        return {"error": "Missing arguments."}
+    esp = ESP.query.filter_by(name=esp_name).first()
+    if esp == None:
+        return {"error": "ESP does not exist."}
+    db.session.delete(esp)
+    program_config = ProgramConfig.query.filter_by(esp_name=esp_name).all()
+    for config in program_config:
+        db.session.delete(config)
+    db.session.commit()
+    return {"success": "ESP deleted."}

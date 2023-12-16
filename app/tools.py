@@ -35,7 +35,7 @@ def jsonify(programs):
   return {
     "programs": [
       {
-        "name": program.program_name,
+        "name": program,
       }
       for program in programs
     ]
