@@ -9,7 +9,7 @@ Das Projekt "LabLogin" ist eine Webanwendung auf Basis von Python und Flask, mit
 ## Installation
  1. Klonen Sie das Repository auf Ihren lokalen Computer mit dem Befehl:
 ```bash
-git clone [https://github.com/huhncares-cmd/lab_login.git](https://github.com/huhncares-cmd/lab_login.git)
+git clone https://github.com/huhncares-cmd/lab_login.git
 
 ```
  2. Wechseln Sie in das Verzeichnis des geklonten Repositories:
